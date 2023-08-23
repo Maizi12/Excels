@@ -22,3 +22,30 @@ Harga Modal or Purchase_Price is a column to fill in the product's purchase pric
 Harga Modal adalah kolom untuk mengisi harga pembelian barang. Anda bisa menggunakan formula yang disertakan atau memasukkannya secara manual. Tapi untuk konsistensi, saya menggunakan formula: AVERAGEIF(Stok_In[Nama Barang];[@[NAMA_BARANG]];Stok_In[Harga]). Ini menghasilkan harga rata-rata berdasarkan nama produk.
 
 Stok_Masuk or Goods In is a column to fill in the purchased goods and goods from last period. The Formula:=SUMIFS(Stok_In[Qty];Stok_In[Status];"Masuk";Stok_In[Nama Barang];[@[NAMA_BARANG]])+SUMIFS(Stok_In[Qty];Stok_In[Status];"Awal";Stok_In[Nama Barang];[@[NAMA_BARANG]]). This formula basically sums Quantity of purchased goods and goods from last period. The parameter is the product's name and the status in the Stok_In which only takes two types of status, "Masuk" and "Awal". "Masuk" is for purchased goods, and "Awal" is for goods from last period. You can adjust this for yourself.
+
+Terjual
+Kolom rekapan untuk barang terjual berdasarkan nama barang. Yang ditotalkan adalah qty nya.
+Summary of goods sold based on products name. Total qty sold
+Sumif(Penjualan[Nama Barang];[@Nama Barang];Qty) 
+
+Sisa stok
+Kolom penjumlahan stok awal dan stok masuk dikurangi stok terjual 
+(Awal+Masuk)-Terjual. 
+Column for the sum of (last period goods+goods in)-goods sold
+Sum(([@Stok Awal]+[Stok Masuk])-[Stok Terjual])
+
+Awal-1
+Kolom untuk total modal stok periode sebelumnya berdasarkan nama produk. Column for sums of the buy price of last period stock based on goods name
+Sumifs(Stok_In!Qty;Stok_In!Nama Barang; [@Nama Barang]; Stok_In!Status; "Awal")
+
+Masuk-1
+Kolom untuk total modal stok masuk berdasarkan nama produk. Column for sums of the buy price of goods in based on products name
+Sumifs(Stok_In!Subtotal;Stok_In!Nama Barang; [@Nama Barang]; Stok_In!Status; "Masuk")
+
+Terjual-1
+Kolom untuk total modal dari barang terjual berdasarkan nama produk. Column for sums of the buy price of goods sold based on products name. 
+Sumifs(Penjualan!Nama Barang; [@Nama Barang]; Penjualan!Modal)
+
+Sisa-1
+Kolom untuk total penjumlahan (modal awal+modal barang masuk) - modal barang terjual. Column for sums of (last period capital + goods in capital) - buy price of goods sold
+Sum(('Awal-1'+'Masuk-1') -Terjual-1
